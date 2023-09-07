@@ -1,0 +1,29 @@
+.button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1em 1.5em;
+  background-color: $primary;
+  border-radius: 7px;
+  font-family: 'Ubuntu', 'WorkSans', sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  color: $white;
+  transition: background-color 0.3s ease-in-out;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $button_hover;
+  }
+
+  &:active {
+    background-color: $button_active;
+  }
+
+  &:disabled {
+    background-color: $grey_5;
+    cursor: default;
+  }
+}

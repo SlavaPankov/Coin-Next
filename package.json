@@ -4,7 +4,7 @@
   "description": "Bank app on Next.js",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start",
     "lint": "eslint src/**/*.{ts,tsx}",
@@ -32,6 +32,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "classnames": "^2.3.2",
     "next": "^13.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
