@@ -24,6 +24,7 @@
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
     "sass": "^1.66.1",
     "typescript": "^5.2.2",
     "webpack": "^5.88.2",
@@ -36,11 +37,11 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx}": [
-      "prettier --write ./src --config ./.prettierrc",
+      "prettier --write ./src",
       "eslint"
     ],
     "src/**/*.{html,scss,css}": [
-      "prettier --write ./src --config ./.prettierrc"
+      "prettier --write ./src"
     ]
   }
 }
