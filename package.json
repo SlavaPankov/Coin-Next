@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint src/**/*.{ts,tsx}",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "format": "prettier --check --ignore-path .gitignore .",
+    "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "author": "Svyatoslav Pankov",
   "license": "ISC",
@@ -33,9 +35,12 @@
     "react-dom": "^18.2.0"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --config ./.prettierrc.js --write"
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "prettier --write ./src --config ./.prettierrc",
+      "eslint"
+    ],
+    "src/**/*.{html,scss,css}": [
+      "prettier --write ./src --config ./.prettierrc"
     ]
   }
 }
