@@ -1,3 +1,6 @@
 module.exports = {
-    reactStrictMode: true,
-}
+  reactStrictMode: true,
+  sassOptions: {
+    additionalData: `@import "styles/vars.scss"; @import "styles/mixins.scss";`,
+  },
+};
