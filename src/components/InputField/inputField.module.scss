@@ -1,0 +1,69 @@
+.label {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 5px 18px;
+}
+
+.labelText {
+  font-family: 'Ubuntu', 'WorkSans', sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  color: $black;
+}
+
+.input {
+  flex: 1;
+  width: 100%;
+  padding: 10px 16px;
+  font-family: 'Ubuntu', 'WorkSans', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: $grey_2;
+  letter-spacing: -0.01em;
+  border-radius: 7px;
+  border: 1px solid $grey_5;
+  background-color: $white;
+  transition:
+    border-color 0.3s ease-in-out,
+    background-color 0.3s ease-in-out;
+
+  &:hover {
+    border-color: $primary;
+    background-color: rgba(160, 195, 255, 0.05);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $primary;
+  }
+
+  &::placeholder {
+    color: $grey_4;
+  }
+}
+
+.isTyping {
+  border-color: $primary;
+  background-color: rgba(160, 195, 255, 0.05);
+}
+
+.isError {
+  border-color: $error;
+  background-color: $white;
+}
+
+.error {
+  display: block;
+  width: 100%;
+  font-family: 'Ubuntu', 'WorkSans', sans-serif;
+  font-size: 16px;
+  line-height: 125%;
+  font-weight: 500;
+  color: $error;
+  text-align: right;
+}
