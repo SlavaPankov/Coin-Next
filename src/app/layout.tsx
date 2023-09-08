@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../styles/globals.scss';
+import { Header } from '../components/Header';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -8,7 +9,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
         <title>Coin</title>
       </head>
-      <body className="page__body">{children}</body>
+      <body className="page__body">
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
