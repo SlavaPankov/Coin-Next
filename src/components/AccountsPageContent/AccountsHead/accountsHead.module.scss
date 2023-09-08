@@ -1,0 +1,28 @@
+.head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 50px;
+  gap: 35px;
+
+  & button {
+    margin-left: auto;
+  }
+}
+
+.list {
+  padding: 10px 0;
+  margin: 0;
+  list-style: none;
+}
+
+.item {
+  padding: 10px 15px;
+  font-family: 'Ubuntu', 'WorkSans', sans-serif;
+  transition: background-color 0.3s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $info;
+  }
+}
