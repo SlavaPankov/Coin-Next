@@ -8,11 +8,13 @@ interface IPayload {
 }
 
 export interface ITokenStoreState {
-  error: string;
-  token: string;
-  loading: boolean;
-  auth: (payload: IPayload) => Promise<{ error: string | null }>;
-  clear: () => void;
+  token: {
+    error: string;
+    token: string;
+    loading: boolean;
+    auth: (payload: IPayload) => Promise<{ error: string | null }>;
+    clear: () => void;
+  };
 }
 
 const getDefaultInitialState = () => ({
@@ -21,23 +23,27 @@ const getDefaultInitialState = () => ({
   loading: false
 });
 
-export const createTokenSlice: StateCreator<ITokenStoreState> = (set) => ({
-  ...getDefaultInitialState(),
-  clear: () => {},
-  auth: async (payload: IPayload) => {
-    set((state) => ({ ...state, loading: true }));
-    const { data } = await axios.post(`${BASE_URL}/${EApiRoutes.login}`, payload);
-    set((state) => ({ ...state, loading: false }));
+export const createTokenSlice: StateCreator<ITokenStoreState> = (set) => {
+  return {
+    token: {
+      ...getDefaultInitialState(),
+      clear: () => {},
+      auth: async (payload: IPayload) => {
+        set((state) => ({ ...state, token: { ...state.token, loading: true } }));
+        const { data } = await axios.post(`${BASE_URL}/${EApiRoutes.login}`, payload);
+        set((state) => ({ ...state, token: { ...state.token, loading: false } }));
 
-    if (!data.error) {
-      set((state) => ({ ...state, token: data.payload.token }));
+        if (!data.error) {
+          set((state) => ({ ...state, token: { ...state.token, token: data.payload.token } }));
 
-      const date = new Date(Date.now() + 86400e3);
-      document.cookie = `token=${data.payload.token}; expires=${date.toUTCString()}`;
-    } else {
-      set((state) => ({ ...state, error: data.error }));
+          const date = new Date(Date.now() + 86400e3);
+          document.cookie = `token=${data.payload.token}; expires=${date.toUTCString()}`;
+        } else {
+          set((state) => ({ ...state, token: { ...state.token, error: data.error } }));
+        }
+
+        return data;
+      }
     }
-
-    return data;
-  }
-});
+  };
+};

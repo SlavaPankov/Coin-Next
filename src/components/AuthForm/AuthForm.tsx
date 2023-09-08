@@ -18,7 +18,9 @@ enum EFormFieldsName {
 
 export function AuthForm() {
   const router = useRouter();
-  const { auth, error, loading } = useAppStore();
+  const {
+    token: { error, loading, auth }
+  } = useAppStore();
   const ref = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<IFormData>({});
   const [formError, setFormError] = useState<IFormData>({});
