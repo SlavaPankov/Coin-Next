@@ -1,17 +1,18 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import styles from './inputField.module.scss';
 import classNames from 'classnames';
 
 interface IInputFiledProps {
   value: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   name: string;
   placeholder?: string;
   type?: string;
-  isDisabled?: boolean;
-  onBlur?: () => void;
   error?: string;
   label?: string;
+  isDisabled?: boolean;
+  isRequired?: boolean;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: FormEvent<HTMLInputElement>) => void;
 }
 
 export function InputField({
@@ -23,7 +24,8 @@ export function InputField({
   type = 'text',
   isDisabled = false,
   error = '',
-  label = ''
+  label = '',
+  isRequired = false
 }: IInputFiledProps) {
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
@@ -41,6 +43,7 @@ export function InputField({
     <label htmlFor="" className={styles.label}>
       <span className={styles.labelText}>{label}</span>
       <input
+        data-required={isRequired}
         onInput={handleInput}
         className={inputClassName}
         type={type}
@@ -49,9 +52,9 @@ export function InputField({
         onChange={onChange}
         value={value}
         disabled={isDisabled}
-        onBlur={() => {
+        onBlur={(event: FormEvent<HTMLInputElement>) => {
           setIsTyping(false);
-          onBlur();
+          onBlur(event);
         }}
       />
       {error && <span className={styles.error}>{error}</span>}
