@@ -26,3 +26,14 @@
     background-color: $info;
   }
 }
+
+.itemActive {
+  position: relative;
+
+  & svg {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+  }
+}
