@@ -54,8 +54,8 @@ export const createAccountsSlice: StateCreator<IAccountsState> = (set) => ({
           ...state,
           accounts: state.accounts.sort(
             (a, b) =>
-              new Date(b.transactions[0].date).getTime() -
-              new Date(a.transactions[0].date).getTime()
+              new Date(b.transactions[0]?.date).getTime() -
+              new Date(a.transactions[0]?.date).getTime()
           )
         }));
         break;
