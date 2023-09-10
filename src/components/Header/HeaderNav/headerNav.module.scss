@@ -1,0 +1,32 @@
+.nav {
+  margin-left: auto;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.link {
+  font-family: 'Ubuntu', 'WorkSans', sans-serif;
+  padding: 1em 1.5em;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  color: $primary;
+  border-radius: 7px;
+  background-color: $white;
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover {
+    background-color: $info;
+  }
+
+  &_active {
+    background-color: $info;
+  }
+}

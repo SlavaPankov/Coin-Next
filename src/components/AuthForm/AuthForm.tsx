@@ -3,9 +3,9 @@ import { H1 } from '../Headings';
 import styles from './authForm.module.scss';
 import { InputField } from '../InputField';
 import { Button } from '../Button';
-import { useTokenStore } from '../../store/useTokenStore/useTokenStore';
 import { useRouter } from 'next/navigation';
 import { ERoutes } from '../../types/enums/ERoutes';
+import { useAppStore } from '../../store/store';
 
 interface IFormData {
   [k: string]: string;
@@ -18,7 +18,10 @@ enum EFormFieldsName {
 
 export function AuthForm() {
   const router = useRouter();
-  const { auth, error, loading } = useTokenStore();
+  const {
+    tokenState: { loading, error },
+    auth
+  } = useAppStore((state) => state);
   const ref = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<IFormData>({});
   const [formError, setFormError] = useState<IFormData>({});
@@ -125,6 +128,7 @@ export function AuthForm() {
         onChange={handleChange}
         onBlur={handleBlur}
         isRequired={true}
+        type={'password'}
       />
       {globalError && <div className={styles.error}>{globalError}</div>}
       <div className={styles.buttonWrapper}>
