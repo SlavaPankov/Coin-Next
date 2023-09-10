@@ -20,7 +20,9 @@ export function AccountsList() {
               <AccountCard
                 account={account.account}
                 balance={account.balance}
-                lastTransaction={account.transactions[0].date}
+                lastTransaction={
+                  account.transactions[0] ? account.transactions[0].date : 'No transactions'
+                }
               />
             </li>
           ))}
