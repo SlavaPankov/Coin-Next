@@ -8,42 +8,38 @@ interface IPayload {
 }
 
 export interface ITokenStoreState {
-  token: {
+  tokenState: {
     error: string;
-    token: string;
     loading: boolean;
-    auth: (payload: IPayload) => Promise<{ error: string | null }>;
-    clear: () => void;
   };
+  token: string;
+  auth: (payload: IPayload) => Promise<{ error: string | null }>;
+  clear: () => void;
 }
-
-const getDefaultInitialState = () => ({
-  error: '',
-  token: '',
-  loading: false
-});
 
 export const createTokenSlice: StateCreator<ITokenStoreState> = (set) => {
   return {
-    token: {
-      ...getDefaultInitialState(),
-      clear: () => {},
-      auth: async (payload: IPayload) => {
-        set((state) => ({ ...state, token: { ...state.token, loading: true } }));
-        const { data } = await axios.post(`${BASE_URL}/${EApiRoutes.login}`, payload);
-        set((state) => ({ ...state, token: { ...state.token, loading: false } }));
+    token: '',
+    tokenState: {
+      error: '',
+      loading: false
+    },
+    clear: () => {},
+    auth: async (payload: IPayload) => {
+      set((state) => ({ ...state, tokenState: { ...state.tokenState, loading: true } }));
+      const { data } = await axios.post(`${BASE_URL}/${EApiRoutes.login}`, payload);
+      set((state) => ({ ...state, tokenState: { ...state.tokenState, loading: true } }));
 
-        if (!data.error) {
-          set((state) => ({ ...state, token: { ...state.token, token: data.payload.token } }));
+      if (!data.error) {
+        set((state) => ({ ...state, token: data.payload.token }));
 
-          const date = new Date(Date.now() + 86400e3);
-          document.cookie = `token=${data.payload.token}; expires=${date.toUTCString()}`;
-        } else {
-          set((state) => ({ ...state, token: { ...state.token, error: data.error } }));
-        }
-
-        return data;
+        const date = new Date(Date.now() + 86400e3);
+        document.cookie = `token=${data.payload.token}; expires=${date.toUTCString()}`;
+      } else {
+        set((state) => ({ ...state, tokenState: { ...state.tokenState, error: data.error } }));
       }
+
+      return data;
     }
   };
 };

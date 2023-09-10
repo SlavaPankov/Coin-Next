@@ -1,3 +1,4 @@
 export enum EApiRoutes {
-  login = 'login'
+  login = 'login',
+  accounts = 'accounts'
 }

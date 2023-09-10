@@ -15,7 +15,7 @@ export function AccountsHead() {
 
   return (
     <div className={styles.head}>
-      <H1 text={'Ваши счета'} />
+      <H1 text={'Your accounts'} />
       <Dropdown button={'Sorting'} isOpen={isDropdownOpen}>
         <ul className={styles.list}>
           <li onClick={handleClick} className={styles.item}>

@@ -1,22 +1,37 @@
 import { IAccount } from '../../types/interfaces/IAccount';
 import { StateCreator } from 'zustand';
+import axios from 'axios';
+import { BASE_URL } from '../../cfg/apiConfig';
+import { EApiRoutes } from '../../types/enums/EApiRoutes';
 
 export interface IAccountsState {
-  accounts: {
-    loading: boolean;
+  accountsState: {
     error: string;
-    accounts: Array<IAccount>;
-    fetchAccounts: () => void;
+    loading: boolean;
   };
+  accounts: Array<IAccount>;
+  fetchAccounts: (token: string) => void;
 }
 
 export const createAccountsSlice: StateCreator<IAccountsState> = (set) => ({
-  accounts: {
+  accountsState: {
     error: '',
-    loading: false,
-    accounts: [],
-    fetchAccounts: async () => {
-      set((state) => ({ ...state, accounts: { ...state.accounts, loading: true } }));
+    loading: false
+  },
+  accounts: [],
+  fetchAccounts: async (token: string) => {
+    set((state) => ({ ...state, accountsState: { ...state.accountsState, loading: true } }));
+    const { data } = await axios.get(`${BASE_URL}/${EApiRoutes.accounts}`, {
+      headers: {
+        Authorization: `Basic ${token}`
+      }
+    });
+    set((state) => ({ ...state, accountsState: { ...state.accountsState, loading: false } }));
+
+    if (!data.error) {
+      set((state) => ({ ...state, accounts: data.payload }));
+    } else {
+      set((state) => ({ ...state, accountsState: { ...state.accountsState, error: data.error } }));
     }
   }
 });
