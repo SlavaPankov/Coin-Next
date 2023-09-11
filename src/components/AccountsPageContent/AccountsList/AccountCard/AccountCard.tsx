@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './accountCard.module.scss';
-import { Button } from '../../../Button';
+import Link from 'next/link';
 
 interface IAccountCardProps {
   account: string;
@@ -26,12 +26,16 @@ export function AccountCard({ account, balance, lastTransaction }: IAccountCardP
   return (
     <article className={styles.card}>
       <h3 className={styles.account}>{account}</h3>
-      <div className={styles.balance}>{balance.toLocaleString('en-US')}</div>
+      <div className={styles.balance}>
+        {balance.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+      </div>
       <div className={styles.cardFooter}>
         <div className={styles.transactions}>
           Last transaction: <span>{convertDate(lastTransaction)}</span>
         </div>
-        <Button text={'Open'} />
+        <Link className={styles.link} href={`/account/${account}`}>
+          Open
+        </Link>
       </div>
     </article>
   );

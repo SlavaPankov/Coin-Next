@@ -7,6 +7,7 @@ interface ITextContentProps {
   lineHeight?: string;
   color?: string;
   marginBottom?: string;
+  letterSpacing?: string;
 }
 
 export function TextContent({
@@ -15,14 +16,16 @@ export function TextContent({
   fontWeight = '400',
   lineHeight = '130%',
   color = '#000',
-  marginBottom = '0'
+  marginBottom = '0',
+  letterSpacing = '0'
 }: ITextContentProps) {
   const style: CSSProperties = {
     color,
     fontSize,
     fontWeight,
     lineHeight,
-    marginBottom
+    marginBottom,
+    letterSpacing
   };
 
   return <div style={style}>{text}</div>;

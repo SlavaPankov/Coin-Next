@@ -3,14 +3,17 @@ import styles from './headerNav.module.scss';
 import Link from 'next/link';
 import { ERoutes } from '../../../types/enums/ERoutes';
 import { usePathname, useRouter } from 'next/navigation';
+import { useAppStore } from '../../../store/store';
 
 export function HeaderNav() {
   const router = useRouter();
   const pathParams = usePathname();
+  const { clear } = useAppStore();
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    localStorage.removeItem('token');
+    document.cookie = `token=; path=/; max-age=-1`;
+    clear();
 
     router.push(ERoutes.login);
   };

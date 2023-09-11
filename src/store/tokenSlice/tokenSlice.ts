@@ -15,6 +15,7 @@ export interface ITokenStoreState {
   token: string;
   auth: (payload: IPayload) => Promise<{ error: string | null }>;
   clear: () => void;
+  setToken: (token: string) => void;
 }
 
 export const createTokenSlice: StateCreator<ITokenStoreState> = (set) => {
@@ -24,11 +25,17 @@ export const createTokenSlice: StateCreator<ITokenStoreState> = (set) => {
       error: '',
       loading: false
     },
-    clear: () => {},
+    clear: () => {
+      set((state) => ({ ...state, token: '' }));
+    },
+    setToken: (token: string) => {
+      set((state) => ({ ...state, token }));
+    },
     auth: async (payload: IPayload) => {
       set((state) => ({ ...state, tokenState: { ...state.tokenState, loading: true } }));
+      set((state) => ({ ...state, tokenState: { ...state.tokenState, error: '' } }));
       const { data } = await axios.post(`${BASE_URL}/${EApiRoutes.login}`, payload);
-      set((state) => ({ ...state, tokenState: { ...state.tokenState, loading: true } }));
+      set((state) => ({ ...state, tokenState: { ...state.tokenState, loading: false } }));
 
       if (!data.error) {
         set((state) => ({ ...state, token: data.payload.token }));

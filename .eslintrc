@@ -14,7 +14,8 @@
       {
         "allowSingleExtends": true
       }
-    ]
+    ],
+    "react-hooks/exhaustive-deps": 0
   },
   "extends": [
     "next",
