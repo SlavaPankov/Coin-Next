@@ -1,0 +1,15 @@
+.container {
+  padding-top: 50px !important;
+  padding-bottom: 50px !important;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+
+  & button {
+    max-width: fit-content;
+    margin: 0 auto;
+  }
+}

@@ -11,6 +11,8 @@ import { getSumPerMonth } from '../../utils/getSumPerMonth';
 import { ChartData, ChartOptions } from 'chart.js';
 import { TransactionsHistory } from '../TransactionsHistory';
 import { ITransaction } from '../../types/interfaces/ITransaction';
+import { useRouter } from 'next/navigation';
+import { ERoutes } from '../../types/enums/ERoutes';
 
 interface IAccountPageContentProps {
   id: string;
@@ -18,11 +20,8 @@ interface IAccountPageContentProps {
 
 export function AccountPageContent({ id }: IAccountPageContentProps) {
   const { account } = useAccountData(id);
+  const router = useRouter();
   const [lastTransactions, setLastTransactions] = useState<Array<ITransaction>>([]);
-
-  const containerClassname = classNames('container', {
-    [`${styles.container}`]: true
-  });
 
   const barChartData = (): ChartData<'bar'> => {
     return {
@@ -58,6 +57,10 @@ export function AccountPageContent({ id }: IAccountPageContentProps) {
     }
   });
 
+  const handleClick = () => {
+    router.push(`${ERoutes.account}/${id}/detail`);
+  };
+
   useEffect(() => {
     if (account.transactions.length) {
       barChartData();
@@ -65,15 +68,32 @@ export function AccountPageContent({ id }: IAccountPageContentProps) {
     }
   }, [account]);
 
+  const containerClassname = classNames('container', {
+    [`${styles.container}`]: true
+  });
+
   return (
     <div className={containerClassname}>
-      <AccountHead balance={account.balance} account={account.account} />
+      <AccountHead
+        balance={account.balance}
+        account={account.account}
+        title={'View your account'}
+      />
       <div className={styles.content}>
         <TransferForm account={account.account} />
-        <div className={styles.wrapper}>
-          {account.transactions && <BarChart data={barChartData()} options={barChartOptions()} />}
+        <div className={styles.wrapper} onClick={handleClick}>
+          {account.transactions && (
+            <BarChart
+              width={'515px'}
+              height={'165px'}
+              data={barChartData()}
+              options={barChartOptions()}
+            />
+          )}
         </div>
-        <TransactionsHistory transactions={lastTransactions} currentAccount={account.account} />
+        <div className={styles.pointer} onClick={handleClick}>
+          <TransactionsHistory transactions={lastTransactions} currentAccount={account.account} />
+        </div>
       </div>
     </div>
   );

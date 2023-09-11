@@ -5,24 +5,24 @@ import { ButtonWithIcon } from '../../ButtonWithIcon';
 import { GoBackIcon } from '../../Icons';
 import { TextContent } from '../../TextContent';
 import { useRouter } from 'next/navigation';
-import { ERoutes } from '../../../types/enums/ERoutes';
 
 interface IAccountHeadProps {
   account: string;
   balance: number;
+  title: string;
 }
 
-export function AccountHead({ account, balance }: IAccountHeadProps) {
+export function AccountHead({ account, balance, title }: IAccountHeadProps) {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(ERoutes.accounts);
+    router.back();
   };
 
   return (
     <div className={styles.head}>
       <div className={styles.headTop}>
-        <H1 text={'View your account'} />
+        <H1 text={title} />
         <ButtonWithIcon icon={<GoBackIcon />} text={'Go back'} onClick={handleClick} />
       </div>
       <div className={styles.headBottom}>

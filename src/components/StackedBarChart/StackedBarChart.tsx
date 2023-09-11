@@ -11,7 +11,7 @@ import {
   ChartData
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import styles from './barChart.module.scss';
+import styles from './stackedBarChart.module.scss';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -34,10 +34,15 @@ interface IBarChartProps {
   height?: string;
 }
 
-export function BarChart({ data, options, width = 'auto', height = 'auto' }: IBarChartProps) {
+export function StackedBarChart({
+  data,
+  options,
+  width = 'auto',
+  height = 'auto'
+}: IBarChartProps) {
   return (
     <div className={styles.wrapper}>
-      <h3 className={styles.title}>Dynamics of balance</h3>
+      <h3 className={styles.title}>Ratio of incoming outgoing transactions</h3>
       <Bar width={width} height={height} options={{ ...defaultOptions, ...options }} data={data} />
     </div>
   );
