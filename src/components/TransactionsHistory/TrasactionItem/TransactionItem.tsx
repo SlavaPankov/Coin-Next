@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './transactionItem.module.scss';
 import classNames from 'classnames';
 
@@ -21,8 +21,6 @@ export function TransactionItem({
     [`${styles.amount}`]: true,
     [`${styles.minus}`]: !isPositiveTransfer
   });
-
-  useEffect(() => {}, [from]);
 
   return (
     <div className={styles.item}>
