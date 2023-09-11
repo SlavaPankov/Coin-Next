@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import styles from './accountPageContainer.module.scss';
 import { useAccountData } from '../../hooks/useAccountData';
@@ -9,6 +9,8 @@ import { BarChart } from '../BarChart';
 import { getLabels } from '../../utils/getBarChartLabels';
 import { getSumPerMonth } from '../../utils/getSumPerMonth';
 import { ChartData, ChartOptions } from 'chart.js';
+import { TransactionsHistory } from '../TransactionsHistory';
+import { ITransaction } from '../../types/interfaces/ITransaction';
 
 interface IAccountPageContentProps {
   id: string;
@@ -16,6 +18,7 @@ interface IAccountPageContentProps {
 
 export function AccountPageContent({ id }: IAccountPageContentProps) {
   const { account } = useAccountData(id);
+  const [lastTransactions, setLastTransactions] = useState<Array<ITransaction>>([]);
 
   const containerClassname = classNames('container', {
     [`${styles.container}`]: true
@@ -58,6 +61,7 @@ export function AccountPageContent({ id }: IAccountPageContentProps) {
   useEffect(() => {
     if (account.transactions.length) {
       barChartData();
+      setLastTransactions(account.transactions.reverse().slice(0, 10));
     }
   }, [account]);
 
@@ -66,7 +70,10 @@ export function AccountPageContent({ id }: IAccountPageContentProps) {
       <AccountHead balance={account.balance} account={account.account} />
       <div className={styles.content}>
         <TransferForm account={account.account} />
-        {account.transactions && <BarChart data={barChartData()} options={barChartOptions()} />}
+        <div className={styles.wrapper}>
+          {account.transactions && <BarChart data={barChartData()} options={barChartOptions()} />}
+        </div>
+        <TransactionsHistory transactions={lastTransactions} currentAccount={account.account} />
       </div>
     </div>
   );

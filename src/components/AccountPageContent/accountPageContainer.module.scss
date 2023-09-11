@@ -6,4 +6,12 @@
 .content {
   display: flex;
   gap: 50px;
+  flex-wrap: wrap;
+}
+
+.wrapper {
+  display: flex;
+  max-width: 684px;
+  width: 100%;
+  cursor: pointer;
 }

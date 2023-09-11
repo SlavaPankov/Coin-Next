@@ -1,0 +1,63 @@
+.history {
+  max-width: 100%;
+  width: 100%;
+  background-color: $grey_7;
+  border-radius: 56px;
+  padding: 25px 40px 66px;
+}
+
+.title {
+  font-size: 20px;
+  line-height: normal;
+  font-weight: 700;
+  color: $black;
+  letter-spacing: -0.02em;
+  margin: 0 0 25px;
+}
+
+.head {
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(12, 1fr);
+  padding: 20px 50px;
+  border-radius: 15px;
+  background-color: $primary;
+
+  & > div {
+    font-family: 'Ubuntu', 'WorkSans', sans-serif;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 500;
+    color: $white;
+  }
+}
+
+.fromTitle {
+  grid-area: 1 / 1 / 2 / 4;
+}
+
+.toTitle {
+  grid-area: 1 / 4 / 2 / 7;
+}
+
+.amountTitle {
+  grid-area: 1 / 7 / 2 / 10;
+}
+
+.dateTitle {
+  grid-area: 1 / 10 / 2 / 13;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  padding: 25px 50px;
+
+  &:not(:last-child) {
+    border-bottom: 2px solid rgba(0, 82, 255, 0.1);
+  }
+}
