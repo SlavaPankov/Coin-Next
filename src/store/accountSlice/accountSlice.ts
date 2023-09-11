@@ -3,6 +3,7 @@ import { StateCreator } from 'zustand';
 import axios from 'axios';
 import { BASE_URL } from '../../cfg/apiConfig';
 import { EApiRoutes } from '../../types/enums/EApiRoutes';
+import { ITransferData } from '../../types/interfaces/ITransferData';
 
 export interface IAccountState {
   accountState: {
@@ -11,6 +12,7 @@ export interface IAccountState {
   };
   account: IAccount;
   fetchAccount: (id: string, token: string) => void;
+  transferFounds: (transferData: ITransferData, token: string) => Promise<{ error: string | null }>;
 }
 
 export const createAccountSlice: StateCreator<IAccountState> = (set) => ({
@@ -38,5 +40,28 @@ export const createAccountSlice: StateCreator<IAccountState> = (set) => ({
     } else {
       set((state) => ({ ...state, accountState: { ...state.accountState, error: data.error } }));
     }
+  },
+  transferFounds: async (
+    transferData: ITransferData,
+    token: string
+  ): Promise<{ error: string | null }> => {
+    set((state) => ({ ...state, accountState: { ...state.accountState, error: '' } }));
+    const { data } = await axios.post(
+      `${BASE_URL}/${EApiRoutes.transfer}`,
+      { ...transferData },
+      {
+        headers: {
+          Authorization: `Basic ${token}`
+        }
+      }
+    );
+
+    if (!data.error) {
+      set((state) => ({ ...state, account: data.payload }));
+    } else {
+      set((state) => ({ ...state, accountState: { ...state.accountState, error: data.error } }));
+    }
+
+    return data.error;
   }
 });

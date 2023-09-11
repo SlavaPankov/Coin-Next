@@ -6,10 +6,8 @@ import { Button } from '../Button';
 import { useRouter } from 'next/navigation';
 import { ERoutes } from '../../types/enums/ERoutes';
 import { useAppStore } from '../../store/store';
-
-interface IFormData {
-  [k: string]: string;
-}
+import { isFormValid } from '../../utils/isFormValid';
+import { IFormData } from '../../types/interfaces/IFormData';
 
 enum EFormFieldsName {
   login = 'login',
@@ -30,31 +28,6 @@ export function AuthForm() {
   useEffect(() => {
     setGlobalError(error);
   }, [error]);
-
-  const isFormValid = (): boolean => {
-    let flag = true;
-    const requiredFields =
-      ref.current?.querySelectorAll<HTMLInputElement>('[data-required="true"]');
-
-    if (!requiredFields) {
-      return flag;
-    }
-
-    for (let i = 0; i < requiredFields.length; i += 1) {
-      const item = requiredFields[i];
-      flag = item.value !== '';
-
-      if (!flag) {
-        return flag;
-      }
-    }
-
-    Object.values(formError).forEach((errorValue) => {
-      flag = !errorValue;
-    });
-
-    return flag;
-  };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormError({});
@@ -92,7 +65,7 @@ export function AuthForm() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!isFormValid()) {
+    if (!isFormValid(ref, formError)) {
       return;
     }
 

@@ -5,6 +5,7 @@ import { ButtonWithIcon } from '../../ButtonWithIcon';
 import { GoBackIcon } from '../../Icons';
 import { TextContent } from '../../TextContent';
 import { useRouter } from 'next/navigation';
+import { ERoutes } from '../../../types/enums/ERoutes';
 
 interface IAccountHeadProps {
   account: string;
@@ -15,7 +16,7 @@ export function AccountHead({ account, balance }: IAccountHeadProps) {
   const router = useRouter();
 
   const handleClick = () => {
-    router.back();
+    router.push(ERoutes.accounts);
   };
 
   return (

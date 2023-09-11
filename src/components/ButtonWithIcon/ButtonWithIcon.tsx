@@ -14,7 +14,7 @@ export function ButtonWithIcon({ icon, text, onClick, isDisabled = false }: IBut
   return (
     <button className={styles.button} onClick={onClick} disabled={isDisabled}>
       {icon}
-      <span>{text}</span>
+      {text && <span>{text}</span>}
     </button>
   );
 }
