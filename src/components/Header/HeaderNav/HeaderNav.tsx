@@ -39,9 +39,9 @@ export function HeaderNav() {
         </li>
         <li>
           <Link
-            href={ERoutes.currency}
+            href={ERoutes.currencies}
             className={`${styles.link} ${
-              pathParams === ERoutes.currency ? styles.link_active : ''
+              pathParams === ERoutes.currencies ? styles.link_active : ''
             }`}>
             Currency
           </Link>

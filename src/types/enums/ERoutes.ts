@@ -3,6 +3,6 @@ export enum ERoutes {
   accounts = '/accounts',
   account = '/account',
   banks = '/banks',
-  currency = '/currency',
+  currencies = '/currencies',
   logout = '/logout'
 }
