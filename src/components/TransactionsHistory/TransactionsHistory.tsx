@@ -18,19 +18,22 @@ export function TransactionsHistory({ transactions, currentAccount }: ITransacti
         <div className={styles.amountTitle}>Amount</div>
         <div className={styles.dateTitle}>Date</div>
       </div>
-      <ul className={styles.list}>
-        {transactions.map((transaction, index) => (
-          <li key={index} className={styles.item}>
-            <TransactionItem
-              from={transaction.from}
-              to={transaction.to}
-              amount={transaction.amount}
-              date={transaction.date}
-              isPositiveTransfer={transaction.from !== currentAccount}
-            />
-          </li>
-        ))}
-      </ul>
+      {transactions.length > 0 && (
+        <ul className={styles.list}>
+          {transactions.map((transaction, index) => (
+            <li key={index} className={styles.item}>
+              <TransactionItem
+                from={transaction.from}
+                to={transaction.to}
+                amount={transaction.amount}
+                date={transaction.date}
+                isPositiveTransfer={transaction.from !== currentAccount}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+      {transactions.length === 0 && <div className={styles.noItem}>No transactions info</div>}
     </div>
   );
 }

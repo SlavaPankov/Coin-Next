@@ -61,3 +61,12 @@
     border-bottom: 2px solid rgba(0, 82, 255, 0.1);
   }
 }
+
+.noItem {
+  padding: 25px 50px 0;
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 400;
+  color: $black;
+  text-align: center;
+}

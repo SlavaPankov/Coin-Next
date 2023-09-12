@@ -63,7 +63,6 @@ export function AccountPageContent({ id }: IAccountPageContentProps) {
 
   useEffect(() => {
     if (account.transactions.length) {
-      barChartData();
       setLastTransactions(account.transactions.reverse().slice(0, 10));
     }
   }, [account]);
