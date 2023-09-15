@@ -72,10 +72,14 @@ export function AuthForm() {
     const data = new FormData(event.currentTarget);
     const dataObject = Object.fromEntries(data.entries()) as { [k: string]: string };
 
-    const { error } = await auth(dataObject);
+    try {
+      const { error } = await auth(dataObject);
 
-    if (!error) {
-      router.push(ERoutes.accounts);
+      if (!error) {
+        router.push(ERoutes.accounts);
+      }
+    } catch (error) {
+      console.log((error as Error).message);
     }
   };
 

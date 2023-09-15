@@ -34,19 +34,28 @@ export const createTokenSlice: StateCreator<ITokenStoreState> = (set) => {
     auth: async (payload: IPayload) => {
       set((state) => ({ ...state, tokenState: { ...state.tokenState, loading: true } }));
       set((state) => ({ ...state, tokenState: { ...state.tokenState, error: '' } }));
-      const { data } = await axios.post(`${BASE_URL}/${EApiRoutes.login}`, payload);
-      set((state) => ({ ...state, tokenState: { ...state.tokenState, loading: false } }));
+      try {
+        const { data } = await axios.post(`${BASE_URL}/${EApiRoutes.login}`, payload);
 
-      if (!data.error) {
-        set((state) => ({ ...state, token: data.payload.token }));
+        set((state) => ({ ...state, tokenState: { ...state.tokenState, loading: false } }));
 
-        const date = new Date(Date.now() + 86400e3);
-        document.cookie = `token=${data.payload.token}; expires=${date.toUTCString()}`;
-      } else {
-        set((state) => ({ ...state, tokenState: { ...state.tokenState, error: data.error } }));
+        if (!data.error) {
+          set((state) => ({ ...state, token: data.payload.token }));
+
+          const date = new Date(Date.now() + 86400e3);
+          document.cookie = `token=${data.payload.token}; expires=${date.toUTCString()}`;
+        } else {
+          set((state) => ({ ...state, tokenState: { ...state.tokenState, error: data.error } }));
+        }
+
+        return data;
+      } catch (error) {
+        console.log((error as Error).message);
+        set((state) => ({
+          ...state,
+          tokenState: { ...state.tokenState, error: (error as Error).message }
+        }));
       }
-
-      return data;
     }
   };
 };

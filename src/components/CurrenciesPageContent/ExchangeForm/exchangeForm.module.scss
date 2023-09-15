@@ -1,0 +1,63 @@
+.wrapper {
+  max-width: 588px;
+  width: 100%;
+  padding: 50px;
+  border-radius: 50px;
+  background-color: $white;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.25);
+}
+
+.currencyList {
+  padding: 10px 0;
+  max-height: 200px;
+  overflow: auto;
+  width: 127px;
+  margin: 0;
+  list-style: none;
+  border-radius: 7px;
+  background-color: $white;
+  filter: drop-shadow(0 5px 20px rgba(0, 0, 0, 0.25));
+}
+
+.item {
+  padding: 10px 15px;
+  transition: background-color 0.3s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $info;
+  }
+}
+
+.select {
+  & label {
+    justify-content: flex-start;
+    width: fit-content;
+    text-transform: capitalize;
+  }
+
+  & input {
+    width: 127px;
+    flex-grow: 0;
+  }
+}
+
+.currencies {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-height: 117px;
+  gap: 25px;
+
+  & button {
+    padding-left: 13px;
+    padding-right: 13px;
+    height: 117px;
+  }
+}

@@ -1,0 +1,19 @@
+.wrapper {
+  position: relative;
+  width: fit-content;
+}
+
+.arrow {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+.content {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  width: fit-content;
+}

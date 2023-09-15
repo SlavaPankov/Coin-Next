@@ -11,8 +11,10 @@ interface IInputFiledProps {
   label?: string;
   isDisabled?: boolean;
   isRequired?: boolean;
+  isReadOnly?: boolean;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: FormEvent<HTMLInputElement>) => void;
+  onFocus?: (event: FormEvent<HTMLInputElement>) => void;
 }
 
 export function InputField({
@@ -20,12 +22,14 @@ export function InputField({
   name,
   onChange,
   onBlur = () => {},
+  onFocus = () => {},
   placeholder = '',
   type = 'text',
   isDisabled = false,
   error = '',
   label = '',
-  isRequired = false
+  isRequired = false,
+  isReadOnly = false
 }: IInputFiledProps) {
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
@@ -51,11 +55,13 @@ export function InputField({
         placeholder={placeholder}
         onChange={onChange}
         value={value}
+        readOnly={isReadOnly}
         disabled={isDisabled}
         onBlur={(event: FormEvent<HTMLInputElement>) => {
           setIsTyping(false);
           onBlur(event);
         }}
+        onFocus={onFocus}
       />
       {error && <span className={styles.error}>{error}</span>}
     </label>
