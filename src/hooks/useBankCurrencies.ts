@@ -2,13 +2,19 @@ import { useAppStore } from '../store/store';
 import { useEffect } from 'react';
 
 export function useBankCurrencies() {
-  const { bankCurrencies, fetchBankCurrencies } = useAppStore();
+  const {
+    bankCurrencies,
+    fetchBankCurrencies,
+    currenciesState: { error, loading }
+  } = useAppStore();
 
   useEffect(() => {
     fetchBankCurrencies();
   }, []);
 
   return {
-    bankCurrencies
+    bankCurrencies,
+    error,
+    loading
   };
 }

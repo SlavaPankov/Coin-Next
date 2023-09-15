@@ -4,5 +4,6 @@ export enum EApiRoutes {
   account = 'account',
   transfer = 'transfer-funds',
   currencies = 'currencies',
-  allCurrencies = 'all-currencies'
+  allCurrencies = 'all-currencies',
+  buyCurrency = 'currency-buy'
 }

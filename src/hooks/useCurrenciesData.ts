@@ -2,7 +2,12 @@ import { useAppStore } from '../store/store';
 import { useEffect } from 'react';
 
 export function useCurrenciesData() {
-  const { currencies, fetchCurrency, token } = useAppStore();
+  const {
+    currencies,
+    currenciesState: { error, loading },
+    fetchCurrency,
+    token
+  } = useAppStore();
 
   useEffect(() => {
     if (!token) {
@@ -13,6 +18,8 @@ export function useCurrenciesData() {
   }, []);
 
   return {
-    currencies
+    currencies,
+    error,
+    loading
   };
 }

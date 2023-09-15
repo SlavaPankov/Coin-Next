@@ -1,5 +1,5 @@
 'use client';
-import React, { ChangeEvent, useEffect, useState, MouseEvent } from 'react';
+import React, { ChangeEvent, useEffect, useState, MouseEvent, FormEvent } from 'react';
 import styles from './exchangeForm.module.scss';
 import { H2 } from '../../Headings';
 import { useBankCurrencies } from '../../../hooks/useBankCurrencies';
@@ -7,6 +7,7 @@ import { InputField } from '../../InputField';
 import { IFormData } from '../../../types/interfaces/IFormData';
 import { Button } from '../../Button';
 import { Select } from '../../Select';
+import { useAppStore } from '../../../store/store';
 
 enum EFieldsNames {
   from = 'from',
@@ -15,7 +16,8 @@ enum EFieldsNames {
 }
 
 export function ExchangeForm() {
-  const { bankCurrencies } = useBankCurrencies();
+  const { token, buyCurrency } = useAppStore();
+  const { bankCurrencies, error, loading } = useBankCurrencies();
   const [formData, setFormData] = useState<IFormData>({});
 
   const handlerSubmit = (event: ChangeEvent<HTMLInputElement>) => {
@@ -24,18 +26,6 @@ export function ExchangeForm() {
       [event.target.name]: event.target.value
     });
   };
-
-  useEffect(() => {
-    if (!bankCurrencies.length) {
-      return;
-    }
-
-    setFormData({
-      ...formData,
-      [EFieldsNames.from]: bankCurrencies[0],
-      [EFieldsNames.to]: bankCurrencies[0]
-    });
-  }, [bankCurrencies]);
 
   const handleClick = (event: MouseEvent<HTMLLIElement>) => {
     const { name, value } = event.currentTarget.dataset;
@@ -50,14 +40,30 @@ export function ExchangeForm() {
     });
   };
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = Object.fromEntries(new FormData(event.currentTarget).entries());
+
+    buyCurrency(token, formData as { [k: string]: string });
+  };
+
   useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+    if (!bankCurrencies.length) {
+      return;
+    }
+
+    setFormData({
+      ...formData,
+      [EFieldsNames.from]: bankCurrencies[0],
+      [EFieldsNames.to]: bankCurrencies[0]
+    });
+  }, [bankCurrencies]);
 
   return (
     <div className={styles.wrapper}>
       <H2 text={'Currency exchange'} marginBottom={'25px'} />
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.currencies}>
           <div className={styles.select}>
             <Select
@@ -108,6 +114,7 @@ export function ExchangeForm() {
         </div>
         <Button text={'Exchange'} />
       </form>
+      {error && !loading && <div className={styles.error}>{error}</div>}
     </div>
   );
 }
