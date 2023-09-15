@@ -1,8 +1,9 @@
 import { ICurrency } from '../../types/interfaces/ICurrency';
 import { StateCreator } from 'zustand';
 import axios from 'axios';
-import { BASE_URL } from '../../cfg/apiConfig';
+import { BASE_URL, SOCKET_URL } from '../../cfg/apiConfig';
 import { EApiRoutes } from '../../types/enums/EApiRoutes';
+import { ICurrencyFeed } from '../../types/interfaces/ICurrencyFeed';
 
 export interface ICurrencyState {
   currenciesState: {
@@ -10,14 +11,17 @@ export interface ICurrencyState {
     error: string;
   };
   currencies: Array<ICurrency>;
+  currenciesFeed: Array<ICurrencyFeed>;
   bankCurrencies: Array<string>;
   fetchCurrency: (token: string) => void;
   fetchBankCurrencies: () => void;
   buyCurrency: (token: string, formData: { [k: string]: string }) => void;
+  getCurrenciesFeed: () => void;
 }
 
 export const createCurrencySlice: StateCreator<ICurrencyState> = (set) => ({
   currencies: [],
+  currenciesFeed: [],
   currenciesState: {
     error: '',
     loading: false
@@ -95,5 +99,20 @@ export const createCurrencySlice: StateCreator<ICurrencyState> = (set) => ({
         currenciesState: { ...state.currenciesState, error: (error as Error).message }
       }));
     }
+  },
+  getCurrenciesFeed: async () => {
+    const socket = new WebSocket(`${SOCKET_URL}/${EApiRoutes.currenciesFeed}`);
+    const tempFeed: Array<ICurrencyFeed> = [];
+
+    socket.onmessage = (event) => {
+      if (tempFeed.length < 21) {
+        tempFeed.unshift(JSON.parse(event.data));
+      } else {
+        tempFeed.pop();
+        tempFeed.unshift(JSON.parse(event.data));
+      }
+
+      set((state) => ({ ...state, currenciesFeed: tempFeed }));
+    };
   }
 });

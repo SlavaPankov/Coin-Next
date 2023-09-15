@@ -5,5 +5,17 @@
 
 .wrapper {
   display: flex;
+  flex-wrap: wrap;
+  gap: 45px;
+}
+
+.right {
+  max-width: 703px;
+  width: 100%;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
   gap: 45px;
 }
