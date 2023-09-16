@@ -10,11 +10,15 @@ import { useAppStore } from '../../../store/store';
 export function AccountsHead() {
   const [isDropdownOpen] = useState<boolean>(false);
   const [sortType, setSortType] = useState<string>('');
-  const { sortingAccounts } = useAppStore();
+  const { sortingAccounts, createAccount, token } = useAppStore();
 
   const handleClick = (event: MouseEvent<HTMLLIElement>) => {
     sortingAccounts(event.currentTarget.dataset.sort || '');
     setSortType(event.currentTarget.dataset.sort || '');
+  };
+
+  const handleCreateClick = () => {
+    createAccount(token);
   };
 
   return (
@@ -45,7 +49,11 @@ export function AccountsHead() {
           </li>
         </ul>
       </Dropdown>
-      <ButtonWithIcon icon={<PlusIcon />} text={'Create a new account'} />
+      <ButtonWithIcon
+        onClick={handleCreateClick}
+        icon={<PlusIcon />}
+        text={'Create a new account'}
+      />
     </div>
   );
 }

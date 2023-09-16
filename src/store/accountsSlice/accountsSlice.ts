@@ -12,6 +12,7 @@ export interface IAccountsState {
   accounts: Array<IAccount>;
   fetchAccounts: (token: string) => void;
   sortingAccounts: (sortType: string) => void;
+  createAccount: (token: string) => void;
 }
 
 export const createAccountsSlice: StateCreator<IAccountsState> = (set) => ({
@@ -22,6 +23,7 @@ export const createAccountsSlice: StateCreator<IAccountsState> = (set) => ({
   accounts: [],
   fetchAccounts: async (token: string) => {
     set((state) => ({ ...state, accountsState: { ...state.accountsState, loading: true } }));
+    set((state) => ({ ...state, accountsState: { ...state.accountsState, error: '' } }));
     const { data } = await axios.get(`${BASE_URL}/${EApiRoutes.accounts}`, {
       headers: {
         Authorization: `Basic ${token}`
@@ -61,6 +63,32 @@ export const createAccountsSlice: StateCreator<IAccountsState> = (set) => ({
         break;
       default:
         break;
+    }
+  },
+  createAccount: async (token: string) => {
+    try {
+      const { data } = await axios.post(
+        `${BASE_URL}/${EApiRoutes.createAccount}`,
+        {},
+        {
+          headers: {
+            Authorization: `Basic ${token}`
+          }
+        }
+      );
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      if (!data.error) {
+        set((state) => ({ ...state, accounts: [...state.accounts, data.payload] }));
+      }
+    } catch (error) {
+      set((state) => ({
+        ...state,
+        accountsState: { ...state.accountsState, error: (error as Error).message }
+      }));
     }
   }
 });

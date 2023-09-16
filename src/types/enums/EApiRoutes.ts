@@ -1,6 +1,7 @@
 export enum EApiRoutes {
   login = 'login',
   accounts = 'accounts',
+  createAccount = 'create-account',
   account = 'account',
   transfer = 'transfer-funds',
   currencies = 'currencies',
