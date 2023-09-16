@@ -6,5 +6,6 @@ export enum EApiRoutes {
   currencies = 'currencies',
   allCurrencies = 'all-currencies',
   buyCurrency = 'currency-buy',
-  currenciesFeed = 'currency-feed'
+  currenciesFeed = 'currency-feed',
+  banks = 'banks'
 }
